@@ -9,29 +9,29 @@ OASIS addresses harmful fine-tuning attacks in the Fine-Tuning-as-a-Service sett
 ## Highlights
 
 - Orthogonal perturbation reduces gradient conflict between safety alignment and harmful adaptation.
-- Adaptive module selection targets the most sensitive Attention and MLP layers instead of perturbing all layers uniformly.
+- Adaptive module selection targets sensitive transformer layers and updates the corresponding Attention and MLP LoRA modules.
 - The repository is organized for the main paper experiments only: training, attack fine-tuning, and evaluation.
 
 ## Repository Layout
 
 ```text
 OASIS/
-├── train.py
-├── trainer.py
-├── utils.py
-├── loggers.py
-├── environment.yml
-├── data/
-├── agnews/
-├── gsm8k/
-├── sst2/
-├── poison/evaluation/
-├── models/
-├── loss_func/
-├── images/
-└── script/
-    ├── alignment/
-    └── finetune/
+|-- train.py
+|-- trainer.py
+|-- utils.py
+|-- loggers.py
+|-- environment.yml
+|-- data/
+|-- agnews/
+|-- gsm8k/
+|-- sst2/
+|-- poison/evaluation/
+|-- models/
+|-- loss_func/
+|-- images/
+`-- script/
+    |-- alignment/
+    `-- finetune/
 ```
 
 ## Environment
@@ -101,18 +101,20 @@ Arguments:
 - `PKU-Alignment/BeaverTails`: BeaverTails dataset path
 - `20`: top-k sensitive layers used by OASIS
 
-The aligned adapter will be saved under:
+The script uses 2,000 safe alignment samples and 200 harmful samples for gradient-based sensitive-layer estimation by default. The aligned adapter will be saved under:
 
 ```text
-ckpt/alignment/<model>_oasis_rho3_topk20_ep20
+ckpt/alignment/<model>_oasis_3_20_20
 ```
+
+For model-specific settings used in the paper, pass the corresponding top-k value as the last argument, for example `20` for Llama2-7B/Vicuna-7B, `23` for Qwen2-7B, and `30` for Gemma2-9B.
 
 ### 2. Harmful Fine-tuning + Task Evaluation
 
 Fine-tune the aligned adapter on SST2 mixed with harmful data:
 
 ```bash
-bash script/finetune/sst2.sh ckpt/alignment/<model>_oasis_rho3_topk20_ep20 /path/to/base-model 0.1 1000 PKU-Alignment/beaver-dam-7b PKU-Alignment/BeaverTails glue
+bash script/finetune/sst2.sh ckpt/alignment/<model>_oasis_3_20_20 /path/to/base-model 0.1 1000 PKU-Alignment/beaver-dam-7b PKU-Alignment/BeaverTails glue
 ```
 
 Fine-tune on AG News:

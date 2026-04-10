@@ -7,6 +7,7 @@ alignment_dataset_path=${3:-data/beavertails_with_refusals_train.json}
 eval_model_path=${4:-PKU-Alignment/beaver-dam-7b}
 beaverTails_dataset_path=${5:-PKU-Alignment/BeaverTails}
 TOP_K=${6:-20}
+prompt_data_size=200
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "$SCRIPT_DIR/../.." && pwd)
@@ -43,6 +44,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
 	--rho ${RHO} \
 	--top_k_layers ${TOP_K} \
 	--system_evaluate True \
+	--prompt_data_size ${prompt_data_size} \
 	--alignment_dataset_path ${alignment_dataset_path} \
 	--beaverTails_dataset_path ${beaverTails_dataset_path} \
 	--max_length 200

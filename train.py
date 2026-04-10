@@ -350,7 +350,7 @@ def train():
     parser.add_argument("--system_evaluate", type=str, default="", help="Specify the optimizer to use")
     parser.add_argument("--lisa_activated_layers", type=int, default=5, help="Specify the optimizer to use")
     parser.add_argument("--lisa_interval_steps", type=int, default=20, help="Specify the optimizer to use")
-    parser.add_argument("--prompt_data_size", type=int, default=100, help="Specify the optimizer to use")
+    parser.add_argument("--prompt_data_size", type=int, default=200, help="Number of harmful samples used for alignment-stage gradient estimation")
     parser.add_argument("--probability_steps", type=int, default=200, help="Specify the optimizer to use")
     parser.add_argument("--bad_sample_num", type=int, default=2000, help="Specify the optimizer to use")
     parser.add_argument("--max_length", type=int, default=200, help="Specify the optimizer to use")
