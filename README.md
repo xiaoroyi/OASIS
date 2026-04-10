@@ -10,7 +10,7 @@ OASIS addresses harmful fine-tuning attacks in the Fine-Tuning-as-a-Service sett
 
 - Orthogonal perturbation reduces gradient conflict between safety alignment and harmful adaptation.
 - Adaptive module selection targets sensitive transformer layers and updates the corresponding Attention and MLP LoRA modules.
-- The repository is organized for the main paper experiments only: training, attack fine-tuning, and evaluation.
+- This release focuses on OASIS and representative alignment baselines used in the main experimental pipeline.
 
 ## Repository Layout
 
@@ -101,13 +101,13 @@ Arguments:
 - `PKU-Alignment/BeaverTails`: BeaverTails dataset path
 - `20`: top-k sensitive layers used by OASIS
 
-The script uses 2,000 safe alignment samples and 200 harmful samples for gradient-based sensitive-layer estimation by default. The aligned adapter will be saved under:
+The script uses the default harmful-gradient estimation setting from the original experiments (`--prompt_data_size 100`) and refreshes the sensitive-layer set every 100 steps by default (`--update_freq 100`). The aligned adapter will be saved under:
 
 ```text
 ckpt/alignment/<model>_oasis_3_20_20
 ```
 
-For model-specific settings used in the paper, pass the corresponding top-k value as the last argument, for example `20` for Llama2-7B/Vicuna-7B, `23` for Qwen2-7B, and `30` for Gemma2-9B.
+The top-k value defaults to `20` and can be overridden by passing the last script argument.
 
 ### 2. Harmful Fine-tuning + Task Evaluation
 

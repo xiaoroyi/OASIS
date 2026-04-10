@@ -331,7 +331,8 @@ class OASIS(Trainer):
                 self.accelerator.backward(loss)
             return loss
 
-        if self.state.global_step % 100 == 0:
+        update_freq = getattr(self.args, "update_freq", 100)
+        if self.state.global_step % update_freq == 0:
             self.compute_dangerous_gradients_and_select_layers(model, top_k=self.args.top_k_layers)
             # self.compute_dangerous_gradients_and_select_layers2(model, top_k_sensitive=12, num_final_layers=4)
 

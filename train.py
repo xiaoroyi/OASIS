@@ -350,14 +350,15 @@ def train():
     parser.add_argument("--system_evaluate", type=str, default="", help="Specify the optimizer to use")
     parser.add_argument("--lisa_activated_layers", type=int, default=5, help="Specify the optimizer to use")
     parser.add_argument("--lisa_interval_steps", type=int, default=20, help="Specify the optimizer to use")
-    parser.add_argument("--prompt_data_size", type=int, default=200, help="Number of harmful samples used for alignment-stage gradient estimation")
+    parser.add_argument("--prompt_data_size", type=int, default=100, help="Number of harmful samples used for alignment-stage gradient estimation")
     parser.add_argument("--probability_steps", type=int, default=200, help="Specify the optimizer to use")
     parser.add_argument("--bad_sample_num", type=int, default=2000, help="Specify the optimizer to use")
     parser.add_argument("--max_length", type=int, default=200, help="Specify the optimizer to use")
     parser.add_argument("--alignment_dataset_path", type=str, default="", help="Specify the optimizer to use")
     parser.add_argument("--beaverTails_dataset_path", type=str, default="", help="Specify the optimizer to use")
     parser.add_argument("--evaluate_step", type=str, default="False", help="Specify the optimizer to use")
-    parser.add_argument("--top_k_layers", type=int, default=32, help="k layers for top-k sparsification")
+    parser.add_argument("--top_k_layers", type=int, default=20, help="k layers for top-k sparsification")
+    parser.add_argument("--update_freq", type=int, default=100, help="Frequency steps to update harmful gradients and select layers")
     parser.add_argument("--meta_term",  type=str, default="True", help="Specify the optimizer to use")
     parser.add_argument("--vaccine_config", type=str, default="front8_att_random8_mlp", help="Vaccine configuration for attention and mlp layers")
     
@@ -397,6 +398,7 @@ def train():
     training_args.model_max_length = extra_args.max_length
     training_args.meta_term = extra_args.meta_term
     training_args.top_k_layers = args.top_k_layers
+    training_args.update_freq = args.update_freq
     training_args.vaccine_config = args.vaccine_config 
 
     data_args.poison_ratio = extra_args.poison_ratio
