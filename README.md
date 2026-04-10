@@ -1,16 +1,12 @@
 <h1 align="center">OASIS: Mitigating Harmful Fine-tuning Attacks on LLMs via Orthogonal and Adaptive Safety Alignment Strategy</h1>
 
-OASIS addresses harmful fine-tuning attacks in the Fine-Tuning-as-a-Service setting. The method combines orthogonal safety perturbations with adaptive sensitive-layer selection, so the safety signal is decoupled from harmful gradient directions while remaining parameter efficient.
+The ``Fine-Tuning-as-a-Service'' paradigm exposes large language models to catastrophic safety degradation from less harmful samples. Alignment-stage defenses address this by proactively injecting adversarial perturbations to bolster the model's inherent robustness against harmful drift. However, existing methods rely on perturbation directions that often conflict with harmful gradients, inadvertently facilitating the acquisition of malicious features rather than suppressing them.
+
+To address this issue, we propose **O**rthogonal and **A**daptive **S**afety Al**i**gnment **S**trategy (**OASIS**) to mathematically decouple safety enforcement from harmful feature acquisition. By projecting perturbations orthogonal to harmful gradients and concentrating optimization on adaptively selected safety-critical layers, OASIS effectively resolves directional conflicts while maximizing parameter efficiency.
 
 <div align="center">
   <img src="images/OASIS_framework.png" width="90%"/>
 </div>
-
-## Highlights
-
-- Orthogonal perturbation reduces gradient conflict between safety alignment and harmful adaptation.
-- Adaptive module selection targets sensitive transformer layers and updates the corresponding Attention and MLP LoRA modules.
-- This release focuses on OASIS and representative alignment baselines used in the main experimental pipeline.
 
 ## Repository Layout
 
@@ -131,22 +127,14 @@ bash script/finetune/gsm8k.sh ckpt/alignment/<aligned_ckpt> /path/to/base-model 
 
 ## Baselines
 
-The alignment scripts for the paper baselines are also included:
+Representative alignment baseline scripts are also included:
 
 - `script/alignment/SFT.sh`
 - `script/alignment/Vaccine.sh`
 - `script/alignment/T-Vaccine.sh`
-- `script/alignment/Tar.sh`
-- `script/alignment/Repnoise.sh`
 - `script/alignment/Orthogonal.sh`
 
 All of them can be paired with the same downstream fine-tuning scripts under `script/finetune/` by passing the corresponding aligned checkpoint directory.
-
-## Notes
-
-- The old experimental analysis, plotting utilities, and historical trial scripts are intentionally removed from this public release.
-- No previous `.git` history is included in this folder.
-- Generated checkpoints, logs, caches, and local tokens are ignored by `.gitignore`.
 
 ## Citation
 
